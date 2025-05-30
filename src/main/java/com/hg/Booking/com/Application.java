@@ -11,5 +11,6 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 
 		System.out.println("Booking.com Running Successfully..!");
+		System.out.println("can move forward........");
 	}
 }
