@@ -1,0 +1,45 @@
+
+   1)Register Hotel Owner Use This Api
+ --> http://localhost:8080/hotel-owner/register
+   ->>Method: POST
+       pass the below JSON in body example
+    {
+        "hotelName":"vamshiHotel",
+        "location":"SEC",
+        "numberOfFloors":"6",
+        "email":"vamshi@gmail.com",
+        "mobileNumber":"0987654321",
+        "password":"vamshi@123"
+    }
+
+    ->>Response:
+     {
+         "id": 2,
+         "hotelName": "vamshiHotel",
+         "location": "SEC",
+         "numberOfFloors": 6,
+         "email": "vamshi@gmail.com",
+         "mobileNumber": "0987654321",
+         "password": "vamshi@123",
+         "rooms": []
+     }
+    2)Login Hotel Owner Use This Api
+    --> http://localhost:8080/hotel-owner/loginUsingEmailAndPassword
+      ->>Method: POST
+           pass the below JSON in body example
+         {
+           "email":"vamshi@gmail.com",
+           "password":"vamshi@123"
+         }
+
+        ->>Response:
+           {
+               "id": 2,
+               "hotelName": "vamshiHotel",
+               "location": "SEC",
+               "numberOfFloors": 6,
+               "email": "vamshi@gmail.com",
+               "mobileNumber": "0987654321",
+               "password": "vamshi@123",
+               "rooms": []
+           }

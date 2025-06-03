@@ -1,0 +1,54 @@
+ ->Data Transfer Object (DTO) used to encapsulate input data sent from the client
+  (like a React frontend) to the backend in a clean, secure, and structured
+   way—especially in POST requests.
+   package com.hg.Booking.com.dto;
+  🔍 Why use a separate LoginRequest class?
+  ✅ 1. Clean and Structured Input
+  Instead of passing multiple parameters like this:
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password)
+You wrap them in one object:
+
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest)
+Which expects a clean JSON like:
+{
+  "email": "user@example.com",
+  "password": "mypassword123"
+}
+✅ 2. Better for Validation
+You can annotate fields in LoginRequest for automatic validation:
+public class LoginRequest {
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotBlank
+    private String password;
+    // getters and setters
+}
+Then add @Valid in the controller:
+
+public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest)
+Spring will return validation errors automatically if fields are missing or invalid.
+
+✅ 3. Secure and Extendable
+You avoid leaking sensitive info via URL (like passwords in GET requests).
+
+Easy to extend later. You can add fields like captcha, 2FA token, etc., without changing the controller method signature.
+
+✅ 4. Frontend Compatibility
+Frontend (like React or Postman) sends JSON:
+{
+  "email": "admin@example.com",
+  "password": "secure123"
+}
+Spring uses Jackson to deserialize it into LoginRequest.
+
+✅ Final Summary
+Without DTO	With DTO (LoginRequest)
+Harder to manage multiple fields	Clean structure for input
+Password visible in URL (GET)	Sent securely in body (POST)
+Less reusable	Easily extendable and reusable
+No built-in validation	Easy to use @Valid, @Email, etc.
+
