@@ -1,10 +1,12 @@
+What is DTO ?
  ->Data Transfer Object (DTO) used to encapsulate input data sent from the client
   (like a React frontend) to the backend in a clean, secure, and structured
    way—especially in POST requests.
    package com.hg.Booking.com.dto;
   🔍 Why use a separate LoginRequest class?
   ✅ 1. Clean and Structured Input
-  Instead of passing multiple parameters like this:
+  Instead of passing
+ multiple parameters like this:
 @PostMapping("/login")
 public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password)
 You wrap them in one object:

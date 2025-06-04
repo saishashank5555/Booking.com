@@ -27,27 +27,28 @@ public class OwnerHotelServiceImp implements OwnerHotelService{
 
     @Override
     public OwnerHotelRegister selectOwnerByMobileAndPassword(String mobile, String password) {
-        return null;
+        return ownerHotelRepository.fetchOwnerByMobileAndPassword(mobile, password);
     }
 
     @Override
     public OwnerHotelRegister selectOwnerById(Integer ownerId) {
-        return null;
+        return ownerHotelRepository.fetchOwnerById(ownerId);
     }
 
     @Override
     public List<OwnerHotelRegister> selectAllOwners() {
-        return null;
+        return ownerHotelRepository.fetchAllOwners();
     }
 
     @Override
     public OwnerHotelRegister selectOwnerByEmail(String email) {
-        return null;
+
+        return ownerHotelRepository.fetchOwnerByEmail(email);
     }
 
     @Override
     public OwnerHotelRegister selectOwnerByMobile(String mobile) {
-        return null;
+        return ownerHotelRepository.fetchOwnerByMobile(mobile);
     }
 
     @Override

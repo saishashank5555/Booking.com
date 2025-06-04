@@ -31,14 +31,13 @@ public class OwnerController
 
 
     @PostMapping("/register")
-        public ResponseEntity<?> registerOwner(@RequestBody OwnerHotelRegister hotelRegister)
-        {
-            String email = hotelRegister.getEmail();
-            sendOtpToEmail(email);
-            tempUserCache.put(email,hotelRegister);
+        public ResponseEntity<?> registerOwner(@RequestBody OwnerHotelRegister hotelRegister) {
+        String email = hotelRegister.getEmail();
+        sendOtpToEmail(email);
+        tempUserCache.put(email, hotelRegister);
 
-            return ResponseEntity.ok("OTP sent to your email.");
-        }
+        return ResponseEntity.status(HttpStatus.OK).body("OTP sent to your email.");
+    }
 
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyTheOtp(@RequestBody OtpEntry otpEntry) {
@@ -56,11 +55,14 @@ public class OwnerController
             if (hotelRegister != null) {
                 OwnerHotelRegister savedUser = ownerHotelService.registerOwner(hotelRegister);
                 tempUserCache.remove(email);
-                return ResponseEntity.ok("OTP verified. User registered successfully.");
-            } else {
-                return ResponseEntity.badRequest().body("Session expired or invalid email.");
+//                return ResponseEntity.status(HttpStatus.OK).body("OTP verified. User registered successfully.");
+                return ResponseEntity.status(HttpStatus.OK).body(savedUser);
             }
-        } else {
+            else {
+                return ResponseEntity.badRequest().body("Session expired or invalid email./ User NOT registered successfully");
+            }
+        }
+        else {
             return ResponseEntity.badRequest().body("Invalid OTP.");
         }
     }
@@ -82,8 +84,8 @@ public class OwnerController
         }
 
 
-        @PostMapping("/loginUsingEmailAndPassword")
-        public ResponseEntity loginOwnerByEmail(@RequestBody LoginUsingEmailAndPassword loginUsingEmailAndPassword)
+        @GetMapping("/loginUsingEmailAndPassword")
+        public ResponseEntity loginOwnerByEmailAndPassword(@RequestBody LoginUsingEmailAndPassword loginUsingEmailAndPassword)
         {
            if(loginUsingEmailAndPassword.getEmail() == null || loginUsingEmailAndPassword.getPassword() == null) {
                return ResponseEntity.badRequest().body("Email and password must not be null");
@@ -104,4 +106,50 @@ public class OwnerController
                }
            }
         }
+
+    @GetMapping("/getOwnerByEmail/{email}")
+    public ResponseEntity<?> getOwnerByEmail(@PathVariable String email) {
+        OwnerHotelRegister ownerHotelRegister = ownerHotelService.selectOwnerByEmail(email);
+        if (ownerHotelRegister != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(ownerHotelRegister);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Owner with this email does not exist");
+        }
+    }
+
+    @GetMapping("/getOwnerByPhone/{phone}")
+    public ResponseEntity<?> getOwnerByPhone(@PathVariable String phone) {
+        OwnerHotelRegister ownerHotelRegister = ownerHotelService.selectOwnerByMobile(phone);
+        if (ownerHotelRegister != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(ownerHotelRegister);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Owner with this phone number does not exist");
+        }
+    }
+
+
+    @GetMapping("/getOwnerById/{ownerId}")
+    public ResponseEntity<?> getOwnerDetailsById(@PathVariable Integer ownerId) {
+        System.out.println("Fetching owner with ID: " + ownerId);
+        OwnerHotelRegister ownerHotelRegister = ownerHotelService.selectOwnerById(ownerId);
+
+        if (ownerHotelRegister != null) {
+            System.out.println("Owner found: " + ownerHotelRegister);
+            return ResponseEntity.status(HttpStatus.OK).body(ownerHotelRegister);
+        } else {
+            System.out.println("Owner with ID " + ownerId + " does not exist.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Owner with this ID does not exist");
+        }
+    }
+
+
+    @GetMapping("/getAllOwners")
+    public ResponseEntity<?> getAllOwners() {
+            return ResponseEntity.status(HttpStatus.OK).body("Implementation not provided yet. Please check back later.");
+    }
+
+
 }

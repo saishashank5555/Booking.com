@@ -1,5 +1,7 @@
 package com.hg.Booking.com.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.*;
@@ -36,10 +38,12 @@ public class OwnerHotelRegister {
     @Column(unique = true, nullable = false)
     private String email;
 
+
     @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits")
     @Column(nullable = false)
     private String mobileNumber;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 

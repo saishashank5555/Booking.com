@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class OwnerHotelRepositoryImp implements OwnerHotelRepository{
@@ -30,8 +31,11 @@ public class OwnerHotelRepositoryImp implements OwnerHotelRepository{
 
     @Override
     public OwnerHotelRegister fetchOwnerById(Integer ownerId) {
-        return hotelRegisterRepo.findById(ownerId)
-                .orElse(null);
+        Optional<OwnerHotelRegister> byId = hotelRegisterRepo.findById(ownerId);
+        if(byId.isPresent())
+            return byId.get();
+        else
+            return null;
     }
 
     @Override
@@ -41,7 +45,8 @@ public class OwnerHotelRepositoryImp implements OwnerHotelRepository{
 
     @Override
     public OwnerHotelRegister fetchOwnerByEmail(String email) {
-        return hotelRegisterRepo.findByEmail(email);
+         return hotelRegisterRepo.findByEmail(email);
+
     }
 
     @Override
