@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -148,7 +149,14 @@ public class OwnerController
 
     @GetMapping("/getAllOwners")
     public ResponseEntity<?> getAllOwners() {
-            return ResponseEntity.status(HttpStatus.OK).body("Implementation not provided yet. Please check back later.");
+        List<OwnerHotelRegister> ownerHotelRegisters = ownerHotelService.selectAllOwners();
+        if(ownerHotelRegisters != null && !ownerHotelRegisters.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(ownerHotelRegisters);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No owners found");
+        }
+
     }
 
 
