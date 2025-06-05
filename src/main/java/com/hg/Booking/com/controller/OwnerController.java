@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,6 +33,7 @@ public class OwnerController
 
     @PostMapping("/register")
         public ResponseEntity<?> registerOwner(@RequestBody OwnerHotelRegister hotelRegister) {
+        System.out.println(hotelRegister);
         String email = hotelRegister.getEmail();
         sendOtpToEmail(email);
         tempUserCache.put(email, hotelRegister);
@@ -53,6 +55,7 @@ public class OwnerController
             OwnerHotelRegister hotelRegister = tempUserCache.get(email);
 
             if (hotelRegister != null) {
+                System.out.println(hotelRegister);
                 OwnerHotelRegister savedUser = ownerHotelService.registerOwner(hotelRegister);
                 tempUserCache.remove(email);
 //                return ResponseEntity.status(HttpStatus.OK).body("OTP verified. User registered successfully.");
@@ -148,7 +151,14 @@ public class OwnerController
 
     @GetMapping("/getAllOwners")
     public ResponseEntity<?> getAllOwners() {
-            return ResponseEntity.status(HttpStatus.OK).body("Implementation not provided yet. Please check back later.");
+        List<OwnerHotelRegister> ownerHotelRegisters = ownerHotelService.selectAllOwners();
+        if(ownerHotelRegisters != null && !ownerHotelRegisters.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(ownerHotelRegisters);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No owners found");
+        }
+
     }
 
 

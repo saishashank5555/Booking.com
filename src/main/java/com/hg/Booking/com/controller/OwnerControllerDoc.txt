@@ -1,15 +1,22 @@
-http://localhost:8080/hotel-owner/register  use this API to register hotel owner                            PostMapping
-http://localhost:8080/hotel-owner/verify-otp use this API to verify the OTP after registration              PostMapping
-http://localhost:8080/hotel-owner/loginUsingEmailAndPassword use this API to login hotel owner              GetMapping
-http://localhost:8080/hotel-owner/getOwnerByEmail/{email} use this API to get hotel owner by email          GetMapping
-http://localhost:8080/hotel-owner/getOwnerByPhone/{phone} use this API to get hotel owner by phone number   GetMapping
-http://localhost:8080/hotel-owner/getOwnerById/{id} use this API to get hotel owner by id                   GetMapping
-http://localhost:8080/hotel-owner/getAllOwners use this API to get all hotel owners                         GetMapping
+ 1) http://localhost:8080/hotel-owner/register  use this API to register hotel owner                            PostMapping
+ 2) http://localhost:8080/hotel-owner/verify-otp use this API to verify the OTP after registration              PostMapping
+ 3) http://localhost:8080/hotel-owner/loginUsingEmailAndPassword use this API to login hotel owner              GetMapping
+ 4) http://localhost:8080/hotel-owner/getOwnerByEmail/{email} use this API to get hotel owner by email          GetMapping
+ 5) http://localhost:8080/hotel-owner/getOwnerByPhone/{phone} use this API to get hotel owner by phone number   GetMapping
+ 6) http://localhost:8080/hotel-owner/getOwnerById/{id} use this API to get hotel owner by id                   GetMapping
+ 7) http://localhost:8080/hotel-owner/getAllOwners use this API to get all hotel owners                         GetMapping
 
-
-
-
-
+  // Add Rooms
+  1)http://localhost:8080/api/rooms/addRoom use this API to add a room to the hotel owner                       PostMapping
+       pass {
+              "floorNumber": 2,
+              "roomNumber": 206,
+              "roomType": "AC",
+              "roomCapacity": 2,
+              "price": 2000.00,
+              "owner_id": 1
+            }
+            and Room 3 Images
 
    1)Register Hotel Owner Use This Api
  --> http://localhost:8080/hotel-owner/register

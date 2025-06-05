@@ -1,6 +1,7 @@
 package com.hg.Booking.com.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 
@@ -43,12 +44,17 @@ public class OwnerHotelRegister {
     @Column(nullable = false)
     private String mobileNumber;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
+    private String socailMediaLink;
+
+    private String googleMapLink;
+
     // ✅ Bidirectional relationship with Room entity
     @OneToMany(mappedBy = "ownerHotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<RoomsRegister> rooms = new ArrayList<>();
 
     public Integer getId() {
@@ -115,6 +121,22 @@ public class OwnerHotelRegister {
         this.rooms = rooms;
     }
 
+    public String getSocailMediaLink() {
+        return socailMediaLink;
+    }
+
+    public void setSocailMediaLink(String socailMediaLink) {
+        this.socailMediaLink = socailMediaLink;
+    }
+
+    public String getGoogleMapLink() {
+        return googleMapLink;
+    }
+
+    public void setGoogleMapLink(String googleMapLink) {
+        this.googleMapLink = googleMapLink;
+    }
+
     @Override
     public String toString() {
         return "OwnerHotelRegister{" +
@@ -129,7 +151,7 @@ public class OwnerHotelRegister {
                 '}';
     }
 
-    public OwnerHotelRegister(Integer id, String hotelName, String location, Integer numberOfFloors, String email, String mobileNumber, String password, List<RoomsRegister> rooms) {
+    public OwnerHotelRegister(Integer id, String hotelName, String location, Integer numberOfFloors, String email, String mobileNumber, String password, String socailMediaLink, String googleMapLink, List<RoomsRegister> rooms) {
         this.id = id;
         this.hotelName = hotelName;
         this.location = location;
@@ -137,8 +159,12 @@ public class OwnerHotelRegister {
         this.email = email;
         this.mobileNumber = mobileNumber;
         this.password = password;
+        this.socailMediaLink = socailMediaLink;
+        this.googleMapLink = googleMapLink;
         this.rooms = rooms;
     }
+
+
 
     public OwnerHotelRegister() {}
 }
