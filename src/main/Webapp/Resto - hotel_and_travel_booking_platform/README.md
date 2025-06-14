@@ -6,7 +6,7 @@ Welcome to our modern hotel and travel booking platform! This project is built w
 
 ---
 
-## 🛠️ Tech Stack (Technologies used in Project)
+## 🛠️ Tech Stack (Technologies used in our Project)
 
 - **React** — Frontend UI library for building interactive user interfaces.
 - **Vite** — Fast development server and build tool for modern web projects
@@ -17,7 +17,7 @@ Welcome to our modern hotel and travel booking platform! This project is built w
 
 ---
 
-## 🚀 Why This Project Stands Out
+## 🚀 Why This Project Stands Out 
 
 - **Modern, mobile-friendly UI** with Tailwind CSS
 - **Separate dashboards** and navigation for users and hotel partners
