@@ -24,6 +24,20 @@ export function LoginForm({
   };
 
   const handleInputChange = (field, value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
+  };
+
+  return (
+    <div className="space-y-6">
+      <Button
+        onClick={handleGoogleSignIn}
+        className="w-full bg-red-500 text-white font-semibold hover:bg-red-600 transition-colors px-4 py-2 rounded"
+  };
+
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
