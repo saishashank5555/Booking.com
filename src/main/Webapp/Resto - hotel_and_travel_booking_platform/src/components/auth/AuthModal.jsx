@@ -15,7 +15,7 @@ export function AuthModal({
 }) {
   const getTitle = () => {
     if (mode === 'login') {
-      return userType === 'partner' ? 'Partner Sign In' : 'Sign In';
+      return userType === 'partner' ? 'Partner Log In' : 'Log In';
     }
     if (mode === 'forgotPassword') {
       return 'Forgot your password?';
