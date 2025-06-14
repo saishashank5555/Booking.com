@@ -4,11 +4,7 @@ import { Input } from '../ui/Input';
 import { signInWithGoogle } from '../../lib/utils';
 import { useAuth } from '../../lib/AuthContext';
 import { useNavigate } from 'react-router-dom';
-// import { signInWithEmailAndPassword } from '../../lib/api/auth'; // Adjust the import based on your API structureimport
-import { UserDashboard } from '../dashboard/UserDashboard';
-import { PartnerDashboard } from '../dashboard/PartnerDashboard';
-import { UserNavbar } from '../layout/UserNavbar';
-import { PartnerNavbar } from '../layout/PartnerNavbar';
+import { signInWithEmailOrPhone } from '../../lib/authApi';
 
 export function LoginForm({
   userType,
@@ -18,7 +14,7 @@ export function LoginForm({
   onSwitchToForgotPassword,
 }) {
   const [formData, setFormData] = useState({
-    email: '',
+    identifier: '', // can be email or phone
     password: '',
   });
   const [errors, setErrors] = useState({});
@@ -41,18 +37,19 @@ export function LoginForm({
     e.preventDefault();
     setIsLoading(true);
     setErrors({});
-    const { email, password } = formData;
-    if (!email || !password) {
+    const { identifier, password } = formData;
+    if (!identifier || !password) {
       setErrors({
-        email: !email ? 'Email is required' : '',
+        identifier: !identifier ? 'Email or phone is required' : '',
         password: !password ? 'Password is required' : '',
       });
       setIsLoading(false);
       return;
     }
     try {
-      const user = await signInWithEmailAndPassword(email, password);
+      const user = await signInWithEmailOrPhone(identifier, password, userType);
       setUser(user);
+      if (onSuccess) onSuccess(); // Close modal
       navigateToDashboard(user); // Navigate to the appropriate dashboard
     } catch (error) {
       console.error('Login Error:', error);
@@ -64,9 +61,9 @@ export function LoginForm({
 
   const navigateToDashboard = (user) => {
     if (user.type === 'partner') {
-      navigate('/partner/PartnerNavbar'); // Navigate to PartnerDashboard
+      navigate('/partner/dashboard');
     } else {
-      navigate('/user/UserNavbar'); // Navigate to UserDashboard
+      navigate('/dashboard');
     }
   };
 
@@ -88,51 +85,39 @@ export function LoginForm({
       >
         Log in with Google
       </Button>
-
       <div className="flex items-center my-3">
         <hr className="flex-grow border-gray-300" />
         <span className="mx-4 text-gray-500">or</span>
         <hr className="flex-grow border-gray-300" />
       </div>
-
       <form onSubmit={handleSubmit} className="space-y-4">
         {errors.general && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-3">
             <p className="text-sm text-red-600">{errors.general}</p>
           </div>
         )}
-
         <Input
-          type="email"
-          label="Email"
-          value={formData.email}
-          onChange={(e) => handleInputChange('email', e.target.value)}
-          error={errors.email}
-          placeholder="Enter your email"
+          label="Email or Phone"
+          value={formData.identifier}
+          onChange={e => handleInputChange('identifier', e.target.value)}
+          error={errors.identifier}
+          placeholder="Enter your email or phone number"
         />
-
         <Input
           type="password"
           label="Password"
           value={formData.password}
-          onChange={(e) => handleInputChange('password', e.target.value)}
+          onChange={e => handleInputChange('password', e.target.value)}
           error={errors.password}
           placeholder="Enter your password"
         />
-
-      <Button
-        onClick={handleSubmit} // Use onClick to handle form submission
-        disabled={isLoading} // Disable button if loading
-        loading={isLoading} // Show loading state
-        title="Log In"
-        // Use type="button" to prevent default form submission behavior
-        type="submit" // Use type="submit" to handle form submission
-        // className="w-full bg-blue-500 text-white font-semibold hover:bg-blue-600 transition-colors px-4 py-2 rounded"
-        className={`w-full ${isLoading ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold transition-colors px-4 py-2 rounded`}
-      >
-        {/* Show loading state */}
-        Log In
-      </Button>
+        <Button
+          type="submit"
+          className={`w-full ${isLoading ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold transition-colors px-4 py-2 rounded`}
+          loading={isLoading}
+        >
+          Log In
+        </Button>
       </form>
 
       <div className="text-center space-y-2">
@@ -160,6 +145,32 @@ export function LoginForm({
             Sign up
           </button>
         </div>
+      </div>
+
+      {/* Dummy buttons for testing navigation */}
+      <div className="flex gap-2 mt-4">
+        <Button
+          type="button"
+          className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded"
+          onClick={() => {
+            setUser({ type: 'user', email: 'dummyuser@example.com', name: 'Dummy User' });
+            if (onSuccess) onSuccess();
+            navigate('/dashboard');
+          }}
+        >
+          Enter User Dashboard (Test)
+        </Button>
+        <Button
+          type="button"
+          className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold px-4 py-2 rounded"
+          onClick={() => {
+            setUser({ type: 'partner', email: 'dummypartner@example.com', name: 'Dummy Partner' });
+            if (onSuccess) onSuccess();
+            navigate('/partner/dashboard');
+          }}
+        >
+          Enter Partner Dashboard (Test)
+        </Button>
       </div>
     </div>
   );

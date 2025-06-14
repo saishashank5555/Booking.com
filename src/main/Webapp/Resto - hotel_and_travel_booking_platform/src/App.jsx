@@ -12,25 +12,6 @@ import { UserDashboard } from './components/dashboard/UserDashboard';
 import { PartnerDashboard } from './components/dashboard/PartnerDashboard';
 import { useAuth } from './lib/AuthContext';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { signInWithGoogle } from './lib/utils';
-
-function TestGoogleSignInButton() {
-  return (
-    <button
-      onClick={async () => {
-        try {
-          const user = await signInWithGoogle();
-          console.log('Test Google Sign-In Success:', user);
-        } catch (error) {
-          console.error('Test Google Sign-In Error:', error);
-        }
-      }}
-      style={{ padding: '10px', backgroundColor: '#4285F4', color: 'white', border: 'none', borderRadius: '5px' }}
-    >
-      Test Google Sign-In
-    </button>
-  );
-}
 
 export default function App() {
   const { user } = useAuth();
@@ -63,7 +44,6 @@ export default function App() {
           <Route path="/partner/dashboard/reports" element={<h1 className="p-8 text-2xl font-bold">Partner Reports</h1>} />
           <Route path="/partner/settings" element={<h1 className="p-8 text-2xl font-bold">Partner Settings</h1>} />
         </Routes>
-        <TestGoogleSignInButton />
       </main>
       <Footer />
       <Toaster />
